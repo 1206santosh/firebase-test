@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FirebaseTest</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%#= javascript_include_tag 'manifest'%>
+  <%#= javascript_include_tag 'firebase'%>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCT0dOXVpkbIVGan2pL9gjvFUWZkOxGVow",
+    authDomain: "intraner-c9984.firebaseapp.com",
+    databaseURL: "https://intraner-c9984.firebaseio.com",
+    projectId: "intraner-c9984",
+    storageBucket: "intraner-c9984.appspot.com",
+    messagingSenderId: "677643899905"
+  };
+  firebase.initializeApp(config);
+  const messaging = firebase.messaging();
+  messaging.requestPermission()
+  navigator.serviceWorker.register("/assets/firebase-messaging-sw.js")
+  .then(function(registration){
+    messaging.useServiceWorker(registration);
+    messaging.getToken()
+    .then(function (Token) {
+      console.log(Token)
+
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  })
+  .catch(function(err) {
+    console.log(err)
+  })
+  // console.log(registration);
+
+  // Request permission and get token.....
+
+  messaging.onMessage(function (payload) {
+    console.log(payload);
+
+  })
+</script>
+
+</body>
+</html>
