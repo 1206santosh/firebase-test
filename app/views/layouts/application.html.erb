@@ -6,7 +6,12 @@
   <%#= javascript_include_tag 'manifest'%>
   <%#= javascript_include_tag 'firebase'%>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-messaging.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -26,13 +31,10 @@
   firebase.initializeApp(config);
   const messaging = firebase.messaging();
   messaging.requestPermission()
-  navigator.serviceWorker.register("<%=asset_path('firebase.js')%>")
-  .then(function(registration){
+  navigator.serviceWorker.register("<%=asset_path('firebase.js')%>").then(function(registration){
     messaging.useServiceWorker(registration);
-    messaging.getToken()
-    .then(function (Token) {
+    messaging.getToken().then(function (Token) {
       console.log(Token)
-
     })
     .catch(function(err){
       console.log(err);
@@ -47,7 +49,6 @@
 
   messaging.onMessage(function (payload) {
     console.log(payload);
-
   })
 </script>
 

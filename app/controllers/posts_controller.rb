@@ -61,6 +61,32 @@ class PostsController < ApplicationController
     end
   end
 
+  def send_notification
+    fcm = FCM.new('AAAAnca5VAE:APA91bGx7YGV-Vh6-iuGjz72uYs-tlfI5FxvSjJHJT4MIq9ye5T23rhw36kMB45eZLSiIapINNN0zLetCKqNCloaV0dNFu3OUSDcrS6TJGPvnQYmwfkQyvvFwU08kmFquYKT3rNHBKEp')
+
+    fcm_options = {
+        notification: {
+          body: "This is a Firebase Cloud Messaging Topic Message!",
+          title: "FCM Message",
+          click_action: "https://google.com"
+        },
+        data: {
+          test1: 1,
+          test2: 2
+        }
+       }
+
+    tokens = ['eJ2Kemz8yEk:APA91bEljZJyHBzVIyi5x1n6Sc75YV-K2kK8v0O0Dqiz_XVdBUJdr8y3pQglKH2GzLfYefwIMgHvCoCd1fK9ooVsQH8PweiVsHZes8dvAlNNxT_ckaUjBlOygoqyVUQ45QrQ8ZDo882U']
+
+    response = fcm.send(tokens, fcm_options)
+
+    puts '---------------------------------------------------------------------'
+    puts response
+    puts '---------------------------------------------------------------------'
+
+    render text: 'hello'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
